@@ -73,7 +73,7 @@ exports.addCommentToPost = async (req, res, error) => {
 };
 
 
-exports.getAllPost = async(req,res)=>{
+exports.getAllPost = async(req,res,error)=>{
     try{
         const AllPosts = await posts.find().populate({path:"user",model:"users"}).
                                             populate({path:"comments.user",model:"users"})
@@ -81,7 +81,7 @@ exports.getAllPost = async(req,res)=>{
         res.status(200).send(AllPosts)
 
     } catch{
-        res.status(500).send({ message: "Internal server error" });
+        res.status(500).send({error});
     }
 }
 
