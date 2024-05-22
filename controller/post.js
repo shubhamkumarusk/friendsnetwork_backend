@@ -20,6 +20,20 @@ exports.postApic = async(req,res)=>{
     res.status(200).send()
 }
 
+exports.deletePic = async (req,res)=>{
+    try{
+        const {id} = req.params
+        const postTobeDeleted = await posts.findOneAndDelete(id)
+        
+        res.status(200).send("deleted")
+    } catch{
+        res.status(500).send("Internal Error")
+    }
+    
+
+    
+}
+
 exports.LikePics = async(req,res)=>{
     try{
         const {id} = req.params
@@ -71,6 +85,27 @@ exports.addCommentToPost = async (req, res, error) => {
         res.status(500).send(err.message);
     }
 };
+
+exports.deleteComment = async (req, res) => {
+    try {
+        const { postId, commentId } = req.params;
+
+        // Update the post by pulling the comment with the specific commentId
+        const post = await posts.findByIdAndUpdate(
+            postId,
+            { $pull: { comments: { _id: commentId } } },
+            { new: true } // Return the updated post
+        );
+
+        res.status(200).send("Comment Deleted")
+
+
+    } catch (error) {
+        console.error(error); // Log the actual error
+        res.status(500).send("Internal error");
+    }
+}
+
 
 
 exports.getAllPost = async(req,res,error)=>{

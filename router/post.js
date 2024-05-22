@@ -8,5 +8,7 @@ router
     .get('/allposts',postController.getAllPost)
     .get('/:email/posts',postController.getAUserPost)
     .post('/:id/comment',postController.addCommentToPost)
+    .delete('/:id/deletepost',postController.deletePic)
+    .delete('/:postId/:commentId/deletecomment',postController.deleteComment)
 
 exports.router = router
